@@ -5,7 +5,7 @@ import { Command, Game } from "./models/iGame";
 import { arrayToMap } from "./utils/arrayToMap";
 import { findUnitInArea } from "./utils/findUnit";
 import { generateGame } from "./utils/generateGame";
-import { showMap } from "./utils/mapDIsp";
+import { showCommands, showMap } from "./utils/mapDIsp";
 import { generatePlayer, getPlayerBySlot } from "./utils/playerUtils";
 
 function main() {
@@ -38,7 +38,8 @@ function main() {
 			});
 		});
         game = processTurn(game);
-        showMap(game);
+        
+		showMap(game);
 	});
 
 	// const com1 = commandParser(game, "H A11", p1.id);

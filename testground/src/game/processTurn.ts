@@ -49,6 +49,7 @@ export function processTurn(game: Game): Game {
 		map: process2.map,
 		players: process2.players,
 		turn: process2.turn,
+		oldCommands: [...process2.oldCommands, process2.commands],
 	};
 }
 

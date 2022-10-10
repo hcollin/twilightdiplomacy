@@ -1,3 +1,4 @@
+import { CommandInProcess } from "../game/processTurn";
 import { Area, AreaId } from "./iMap";
 import { Player } from "./iPlayer";
 
@@ -9,6 +10,7 @@ export interface Game {
     players: Map<string, Player>;
     turn: number;
     commands: Command[];
+    oldCommands: CommandInProcess[][];
 }
 
 

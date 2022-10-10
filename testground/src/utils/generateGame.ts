@@ -16,6 +16,7 @@ export function generateGame(gameMap: MapData, playerArray: Player[]): Game {
 		players: players,
 		turn: 0,
 		commands: [],
+		oldCommands: []
 	};
 
 	gameMap.homeAreas.forEach((homes: string[], index) => {
