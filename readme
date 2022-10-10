@@ -1,0 +1,78 @@
+
+# Area Control Game
+
+Influenced by
+ - Diplomacy
+ - Twilight Imperium
+ - 
+ 
+## Goals
+ - Diplomacy style communication and gameplay
+ - Turn based gameplay, where all actions are parsed simultaneously
+ - Agendas & Voting, that change the gameplay rules
+ - Simple Resource management
+ - Trading between players is possible
+ - Simple Tech research with small tree
+ - Objective based victory instead of pure area control
+ - Deterministic combat with some modifications from tech (maybe player powers).
+ - Can work on multiple playercounts
+ - On default maps for different plyeer counts
+ 
+ 
+ 
+ 
+## Actions (for units)
+ - Move
+   - Move/Attack to area next to current one
+ - Support
+   - Support Move or Hold action happening in other area 
+ - Hold
+   - Hold this area against incoming attack (+1 Power)
+ - Convoy
+   - Move units through this area
+ - Build
+   - Construct a building in this area
+
+### Order of processing
+
+First order to be processed is HOLD. This increases the power of that area by 1.
+Next all move related commands are processed (Move, Support, Convoy).
+
+### Supports
+
+All commands with support are checked
+
+
+Builds are processed last, unless they have been interrupted.
+
+## Economy
+ - All controlled areas produce 1 resource per tun
+ - All controlled cities produce 1 resource per turn
+ - Units (exect infantryu) are produced in factories
+ - Infantry can be produced in any city
+ - Units can construct buildings
+ 
+
+## Buildings
+ - Factory, City, allows construction of units
+ - Mine, Not city, Area produces +1 resource
+ - Barracks, City, +1 power to armies defending this city
+ - Research Lab, City, City produces 1 research point
+
+ 
+## Objectives
+ - Control X amount of player capitals
+ - Control X amount of Cities
+ - Generate X amount of resource Y in a turn
+
+
+## Units
+ - Infantry, Land, Power 1
+ - Navy, Naval, Power 3
+ - Tank, Land, Power 2, Cannot construct, No hold bonus,
+ - Artillery, Land, Power 1, Power 3 when supporting
+ - Planes, City, Power 2, Cannot construct or capture cities, must move from city to city, Support range 3
+
+
+## Research (Later on)
+
