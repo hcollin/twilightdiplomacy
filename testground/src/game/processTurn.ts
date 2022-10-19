@@ -1,5 +1,6 @@
 import { Command, CommandCode, Game } from "../models/iGame";
 import { Area, AreaId } from "../models/iMap";
+import { mapReduce } from "../utils/arrayToMap";
 import { findCommandsForArea } from "../utils/commandUtils";
 import { findUnitInArea } from "../utils/findUnit";
 import { hasFlag } from "../utils/Flags";
@@ -42,14 +43,16 @@ export function processTurn(game: Game): Game {
 	// console.log("\n\n", process2.commands);
 
 	process2.map = parseOwnerShip(process2);
-	process2.turn++;
+	const process3 = processEconomy(process2);
+
+	process3.turn++;
 
 	return {
 		commands: [],
-		map: process2.map,
-		players: process2.players,
-		turn: process2.turn,
-		oldCommands: [...process2.oldCommands, process2.commands],
+		map: process3.map,
+		players: process3.players,
+		turn: process3.turn,
+		oldCommands: [...process3.oldCommands, process3.commands],
 	};
 }
 
@@ -197,8 +200,6 @@ function findAreaIdWithUnsolvedCommands(game: GameInProcess): AreaId | null {
 	return null;
 }
 
-
-
 function solveSingleArea(game: GameInProcess, counter?: number): GameInProcess {
 	const aid = findAreaIdWithUnsolvedCommands(game);
 
@@ -216,23 +217,25 @@ function solveSingleArea(game: GameInProcess, counter?: number): GameInProcess {
 	const movers = cmds.filter((c) => c.commandType === "M");
 	let attacker: CommandInProcess | null = null;
 
-	// Only one attacker 
+	// Only one attacker
 	if (movers.length === 1) attacker = movers[0];
 
 	// More than one attacker
 	if (movers.length > 1) {
-		
-		movers.sort((a, b) => a.power - b.power);  
-		const att = movers.reduce((winner, cur: CommandInProcess, index: number) => {
-			if (winner.winner === null) return {maxPower: cur.power, winner: cur };
-			if (cur.power > winner.maxPower) return {maxPower: cur.power, winner: cur };
-			if (cur.power === winner.maxPower) return {maxPower: winner.maxPower, winner: null };
-			return winner;
-		}, {
-			maxPower: 0,
-			winner: null
-		} as { maxPower: number, winner: null|CommandInProcess});
-		
+		movers.sort((a, b) => a.power - b.power);
+		const att = movers.reduce(
+			(winner, cur: CommandInProcess, index: number) => {
+				if (winner.winner === null) return { maxPower: cur.power, winner: cur };
+				if (cur.power > winner.maxPower) return { maxPower: cur.power, winner: cur };
+				if (cur.power === winner.maxPower) return { maxPower: winner.maxPower, winner: null };
+				return winner;
+			},
+			{
+				maxPower: 0,
+				winner: null,
+			} as { maxPower: number; winner: null | CommandInProcess },
+		);
+
 		// Selected attacker
 		attacker = att.winner;
 
@@ -311,4 +314,29 @@ function findAreaDefender(game: GameInProcess, aid: AreaId): CommandInProcess {
 		return false;
 	});
 	return defs[0];
+}
+
+function processEconomy(game: GameInProcess): GameInProcess {
+	game.players.forEach((p) => {
+		const moreMoney = mapReduce<AreaId, Area, number>(
+			game.map,
+			(num: number, a: Area, k: AreaId) => {
+				
+				if (a.owner === p.id) {
+					
+					if (a.city) {
+						return num + 2;
+					} else {
+						return num + 1;
+					}
+				}
+				return num;
+			},
+			0,
+		);
+		// console.log(p.id, p.money, moreMoney);
+		p.money += moreMoney;
+	});
+
+	return { ...game };
 }

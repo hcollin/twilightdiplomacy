@@ -51,3 +51,12 @@ export function showCommands(game: Game, targetTurn?: number) {
 		console.log(`${c.commandType} ${c.areas.join(" ")}: ${c.success ? "Succeeded" : "Failed"}`);
 	});
 }
+
+
+export function showData(game: Game) {
+
+	game.players.forEach(p => {
+		console.log(`${[p.factionName]} : ${p.money}`);
+	})
+
+}

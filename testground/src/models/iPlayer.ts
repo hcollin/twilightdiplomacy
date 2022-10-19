@@ -5,4 +5,5 @@ export interface Player {
     factionName: string;
     slotNumber: number;
     color: string;
+    money: number;
 }

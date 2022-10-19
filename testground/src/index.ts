@@ -1,34 +1,38 @@
 import testMap from "./data/testMap";
+import testMap2 from "./data/testMap2";
 import { holdCommand, moveCommand, supportCommand } from "./game/commands";
 import { processTurn } from "./game/processTurn";
 import { Command, Game } from "./models/iGame";
 import { arrayToMap } from "./utils/arrayToMap";
 import { findUnitInArea } from "./utils/findUnit";
 import { generateGame } from "./utils/generateGame";
-import { showCommands, showMap } from "./utils/mapDIsp";
+import { showCommands, showData, showMap } from "./utils/mapDIsp";
 import { generatePlayer, getPlayerBySlot } from "./utils/playerUtils";
 
 function main() {
-	const p1 = generatePlayer("Red Faction", 0);
-	const p2 = generatePlayer("Blue Faction", 1);
+	const p1 = generatePlayer("Oululaiset", 0);
+	const p2 = generatePlayer("Hesalaiset", 1);
+	const p3 = generatePlayer("Turkulaiset", 2);
+	const p4 = generatePlayer("Tamperelaiset", 3);
+	const p5 = generatePlayer("Karjalaiset", 4);
 
-	let game = generateGame(testMap, [p1, p2]);
+	let game = generateGame(testMap2, [p1, p2, p3, p4, p5]);
 
 	const comms: string[][][] = [
 		// Turn 1
-		[
-			["M A11 A12"], // P1
-			["M A33 A23"], // P2
-		],
-        [
-            ["M A12 A13"],
-            ["M A23 A13"],
-        ]
+		// [
+		// 	["M A11 A12"], // P1
+		// 	["M A33 A23"], // P2
+		// ],
+        // [
+        //     ["M A12 A13"],
+        //     ["M A23 A13"],
+        // ]
 	];
 
 	// Generate Test commands
 
-    showMap(game);
+    // showMap(game);
 	comms.forEach((turn: string[][]) => {
 		turn.forEach((cmds: string[], index: number) => {
 			const pl = getPlayerBySlot(game, index);
@@ -39,13 +43,14 @@ function main() {
 		});
         game = processTurn(game);
         
-		showMap(game);
+		// showMap(game);
+		showData(game);
 	});
 
-	// const com1 = commandParser(game, "H A11", p1.id);
 
 	
 
+	// const com1 = commandParser(game, "H A11", p1.id);
 	// console.log(game);
 }
 

@@ -10,6 +10,7 @@ export interface Area {
     id: AreaId;
     name: string; 
     city: boolean;
+    type: AreaType;
     buildings: Building[];
     owner: string|null;
     nextTo: string[];
@@ -21,5 +22,7 @@ export interface Area {
 
 
 export type Building = "F"|"M"|"B";
+
+export type AreaType = "L"|"W"|"C"|"M"; // Land, Water, Coast, Mountain
 
 export type AreaId = string;

@@ -18,3 +18,11 @@ export function mapMap<K, V>(omap: Map<K, V>, fn: (v: V, k: K) => V): Map<K, V> 
 	}
 	return nmap;
 }
+
+export function mapReduce<K, V, T>(omap: Map<K, V>, fn: (tot: T, cur: V, key: K) => T, def: T): T {
+	let val: T = def;
+	omap.forEach((v: V, k: K) => {
+		val = fn(val, v, k);
+	});
+	return val;
+}

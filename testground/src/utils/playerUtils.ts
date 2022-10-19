@@ -14,6 +14,7 @@ export function generatePlayer(name: string, slot: number): Player {
         slotNumber: slot,
         id: `pl_${slot}`,
         color: COLORS[slot],
+        money: 1,
     };
 
     return p;
